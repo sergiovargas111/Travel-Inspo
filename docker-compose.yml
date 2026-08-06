@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: travel-inspo-postgres
+    environment:
+      POSTGRES_USER: travel_inspo
+      POSTGRES_PASSWORD: travel_inspo
+      POSTGRES_DB: travel_inspo
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
