@@ -1,0 +1,16 @@
+{
+  "LambdaFunctionConfigurations": [
+    {
+      "Id": "thumbnail-on-upload",
+      "LambdaFunctionArn": "arn:aws:lambda:us-east-1:377281019881:function:travel-inspo-thumbnail-generator",
+      "Events": ["s3:ObjectCreated:*"],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            { "Name": "prefix", "Value": "originals/" }
+          ]
+        }
+      }
+    }
+  ]
+}
