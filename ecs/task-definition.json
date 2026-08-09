@@ -1,0 +1,38 @@
+{
+  "family": "travel-inspo-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::377281019881:role/travel-inspo-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::377281019881:role/travel-inspo-ecs-task-role",
+  "containerDefinitions": [
+    {
+      "name": "travel-inspo-api",
+      "image": "377281019881.dkr.ecr.us-east-1.amazonaws.com/travel-inspo-api:latest",
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "PORT", "value": "3000" },
+        { "name": "AWS_REGION", "value": "us-east-1" },
+        { "name": "S3_BUCKET_NAME", "value": "travel-inspo-photos-377281019881" },
+        { "name": "DYNAMODB_LIKES_TABLE", "value": "likes" },
+        { "name": "PGSSL", "value": "true" }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-1:377281019881:parameter/travel-inspo/database-url"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/travel-inspo-api",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ]
+}
